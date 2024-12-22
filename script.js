@@ -21,8 +21,9 @@ const words = [
   'north',
   'dependent',
   'steer',
+  'arizona',
   'silver',
-  'highfalutin',
+  'california',
   'superficial',
   'quince',
   'eight',
@@ -32,28 +33,21 @@ const words = [
   'loving'
 ];
 
-// Init word
+// init word
 let randomWord;
 
-// Init score
+// init score
 let score = 0;
 
-// Init time
-let time = 10;
+// init time
+let time = 15;
+let difficulty = localStorage.getItem('difficulty');
 
-// Set difficulty to value in ls or medium
-let difficulty =
-  localStorage.getItem('difficulty') !== null
-    ? localStorage.getItem('difficulty')
-    : 'medium';
+// default
+if (!difficulty) {
+  difficulty = 'Medium';
+}
 
-// Set difficulty select value
-difficultySelect.value =
-  localStorage.getItem('difficulty') !== null
-    ? localStorage.getItem('difficulty')
-    : 'medium';
-
-// Focus on text on start
 text.focus();
 
 // Start counting down
@@ -69,21 +63,16 @@ function addWordToDOM() {
   randomWord = getRandomWord();
   word.innerHTML = randomWord;
 }
-
-// Update score
 function updateScore() {
   score++;
   scoreEl.innerHTML = score;
 }
-
-// Update time
 function updateTime() {
   time--;
   timeEl.innerHTML = time + 's';
 
   if (time === 0) {
     clearInterval(timeInterval);
-    // end game
     gameOver();
   }
 }
@@ -99,9 +88,7 @@ function gameOver() {
   endgameEl.style.display = 'flex';
 }
 
-addWordToDOM();
-
-// Event listeners
+addWordToDOM(); // init word
 
 // Typing
 text.addEventListener('input', e => {
@@ -126,11 +113,4 @@ text.addEventListener('input', e => {
   }
 });
 
-// Settings btn click
-settingsBtn.addEventListener('click', () => settings.classList.toggle('hide'));
 
-// Settings select
-settingsForm.addEventListener('change', e => {
-  difficulty = e.target.value;
-  localStorage.setItem('difficulty', difficulty);
-});
